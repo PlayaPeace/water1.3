@@ -1,5 +1,6 @@
 'use strict';
 
+//inputs
 let numBuildings;
 let numSections;
 let numFloors;
@@ -15,7 +16,23 @@ let dInput;
 let h2Input;
 //new part 30.11
 let nInput;
+//new part 15.12
+let numDevicesT3;
+let z1Input;
+let z2Input;
 
+//calculates
+//new part 15.12
+let nT3;
+let qT3;
+let pST3;
+let nP1;
+let qST3;
+let nP2;
+let pHT3;
+let qHT3;
+let hNas;
+let hItot
 
 let h1;
 let h2;
@@ -24,7 +41,7 @@ let hGeom;
 let hSSum;
 let hTr
 let hL;
-let qSMax1;
+// let qSMax1;
 
 let Htr;
 let Hnijt;
@@ -53,7 +70,7 @@ let hiddenFormulaCont;
 let formulaCont;
 let canvasCont;
 
-let sumHtr = document.querySelector('[data-sum-Htr]');
+// let sumHtr = document.querySelector('[data-sum-Htr]');
 
 let inputs = document.querySelectorAll('input');
 for (let elem = 0; elem < inputs.length; elem++){
@@ -85,11 +102,17 @@ for (let elem = 0; elem < inputs.length; elem++){
                 //30.11 add
                 let element = document.getElementById('data-num-floors');
                 if (element) element.textContent = numFloors;
+
+                element = document.getElementById('data-num-floors-1');
+                if (element) element.textContent = numFloors;
             }
 
             if (this.hasAttribute('data-floor-height')) {
                 floorHeight = this.value;
                 allValue('[data-floor-height]', floorHeight);
+
+                let element = document.getElementById('floor-height-1');
+                if (element) element.textContent = floorHeight;
             }
 
             if (this.hasAttribute('data-population')) {
@@ -119,7 +142,10 @@ for (let elem = 0; elem < inputs.length; elem++){
                 lInput = this.value;
                 allValue('[data-l-input]', lInput);
 
-                let element = document.getElementById('l-text');
+                let element = document.getElementById('l-text-1');
+                if (element) element.textContent = lInput;
+
+                element = document.getElementById('l-text-2');
                 if (element) element.textContent = lInput;
             }
 
@@ -168,6 +194,34 @@ for (let elem = 0; elem < inputs.length; elem++){
                 if (text) text.textContent = h2Input;
             }
 
+            //new part 15.12
+            if (this.hasAttribute('data-num-devices-T3')) {
+                numDevicesT3 = this.value;
+                allValue('[data-num-devices-T3]', numDevicesT3);
+
+                let text = document.getElementById('h2-1');
+                if (text) text.textContent = h2Input;
+
+                text = document.getElementById('h2-2');
+                if (text) text.textContent = h2Input;
+            }
+
+            if (this.hasAttribute('data-z1-input')) {
+                z1Input = this.value;
+                allValue('[data-z1-input]', z1Input);
+
+                let element = document.getElementById('z1-1');
+                if (element) element.textContent = z1Input;
+            }
+
+            if (this.hasAttribute('data-z2-input')) {
+                z2Input = this.value;
+                allValue('[data-z2-input]', z2Input);
+
+                let element = document.getElementById('z2-1');
+                if (element) element.textContent = z2Input;
+            }
+
             //new part 25.11
             if (h2Input) {
                 let h1 = h2Input - 0.3;
@@ -194,9 +248,16 @@ for (let elem = 0; elem < inputs.length; elem++){
                 formulaCont='formulaHnijt';
                 canvasCont='canvasHnijt';
                 calculate(formulaHnijtResult, hiddenFormulaCont,formulaCont,canvasCont);
+            }
 
-                hGeom = Number(numFloors) * Number(floorHeight) + 0.8;
-                let element = document.getElementById('h-geom');
+            if (numFloors && floorHeight && z1Input && z2Input) {
+                hGeom = floorHeight * (numFloors - 1) + Number((z1Input - z2Input));
+                hGeom = Number(hGeom.toFixed(3));
+
+                let element = document.getElementById('h-geom-1');
+                if (element) element.textContent = Number(hGeom.toFixed(1));
+
+                element = document.getElementById('h-geom-2');
                 if (element) element.textContent = Number(hGeom.toFixed(1));
             }
 
@@ -213,6 +274,8 @@ for (let elem = 0; elem < inputs.length; elem++){
                 qb0 = Number(qb0.toFixed(2)); //to fixed
                 qb1 = Number(110)*U/1000;
                 qb1 = Number(qb1.toFixed(2)); //to fixed
+                qT3 = Number(70)*U/1000;
+                qT3 = Number(qT3.toFixed(2)); //to fixed
             }
 
             if (U && qb0) {
@@ -243,7 +306,7 @@ for (let elem = 0; elem < inputs.length; elem++){
                 allValue('Qb0d-table', qb0);
             }
 
-            if(U && qb1) {
+            if (U && qb1) {
                 let formulaQb1Text = `q^{\\text{b1}}_{\\text{сут}} = \\frac{q^{\\text{B1}}_{\\text{сут}} * U}{1000} = \\frac{110 * ${U}}{1000} = ${qb1} \\frac{\\text{м³}}{\\text{сут}}`;
                 hiddenFormulaCont = 'hiddenFormulaQb1';
                 formulaCont='formulaQb1';
@@ -266,6 +329,30 @@ for (let elem = 0; elem < inputs.length; elem++){
                 allValue('Qb1d-table', qb1);
             }
 
+            //new part 15.12
+            if (U && qT3) {
+                let formulaText = `q^{\\text{T3}}_{\\text{сут}} = \\frac{q^{\\text{T3}}_{\\text{сут}} * U}{1000} = \\frac{70 * ${U}}{1000} = ${qT3} \\frac{\\text{м³}}{\\text{сут}}`;
+                hiddenFormulaCont = 'hiddenFormulaQT3';
+                formulaCont='formulaQT3';
+                canvasCont='canvasQT3';
+                calculate(formulaText, hiddenFormulaCont,formulaCont,canvasCont);
+
+                let qT3mh = Number((qT3/24).toFixed(2));
+                formulaText = `q^{\\text{T3}}_{\\text{ср час}} = \\frac{${qT3}}{24} = ${qT3mh} \\frac{\\text{м³}}{\\text{час}}`;
+                hiddenFormulaCont = 'hiddenFormulaQT3mh';
+                formulaCont='formulaQT3mh';
+                canvasCont='canvasQT3mh';
+                calculate(formulaText, hiddenFormulaCont,formulaCont,canvasCont);
+
+                const QT3mhTableElement = document.getElementById('QT3mh-table');
+                if (QT3mhTableElement) QT3mhTableElement.textContent = qT3mh.toString();
+                allValue('QT3mh-table', qT3mh);
+
+                const QT3dTableElement = document.getElementById('QT3d-table');
+                if (QT3dTableElement) QT3dTableElement.textContent = qT3;
+                allValue('QT3d-table', qT3);
+            }
+
             if (numSections && numFloors && numDevices && numApartments && numBuildings) {
                 Nb0 = parseFloat(numSections) * parseFloat(numFloors) * parseFloat(numDevices) * parseFloat(numApartments) * parseFloat(numBuildings);
                 Nb0 = Math.ceil(Nb0)
@@ -275,6 +362,15 @@ for (let elem = 0; elem < inputs.length; elem++){
                 let Nb1Calculate = numSections + " * " + numFloors + " * " + numDevices + " * " + numApartments + " * " + numBuildings + " = " + Nb1;
                 allValue('[Nb0-calculate]', Nb0Calculate + " шт")
                 allValue('[Nb1-calculate]', Nb1Calculate + " шт")
+            }
+
+            //new part 15.12
+            if (numSections && numFloors && numDevicesT3 && numApartments && numBuildings) {
+                nT3 = parseFloat(numSections) * parseFloat(numFloors) * parseFloat(numDevicesT3) * parseFloat(numApartments) * parseFloat(numBuildings);
+                nT3 = Math.ceil(nT3)
+                let Nb0Calculate = numSections + " * " + numFloors + " * " + numDevicesT3 + " * " + numApartments + " * " + numBuildings + " = " + nT3;
+                let text = document.getElementById('NT3-calculate-1');
+                if (text) text.textContent = Nb0Calculate;
             }
 
             if (U && Nb0) {
@@ -294,13 +390,28 @@ for (let elem = 0; elem < inputs.length; elem++){
                 calculate(formulaPB0sText, hiddenFormulaCont,formulaCont,canvasCont);
             }
 
+            //new part 15.12
+            if (U && nT3) {
+                pST3 = (6.5*U)/(3600*nT3*0.3);
+                pST3 = Number(pST3.toFixed(6));
+
+                let formulaText = `\\text{2)} P_{\\text{сек}}^{\\text{BO}} = \\frac{6.5 * ${U}}{3600*${nT3}*0.3} = ${pST3}`;
+                hiddenFormulaCont = 'hiddenFormulaPsT3';
+                formulaCont='formulaPsT3';
+                canvasCont='canvasPsT3';
+                calculate(formulaText, hiddenFormulaCont,formulaCont,canvasCont);
+
+                let text = document.getElementById('PST3-table2');
+                if (text) text.textContent = pST3;
+            }
+
             if (U && Nb1) {
                 Psb1 = (5.1*U)/(3600*Nb1*0.2);
                 Psb1 = Number(Psb1.toFixed(6));
                 let Pb1Calculate = "(5.1 * " + U + ")/(3600*${Nb1}*0.2) = " + Psb1;
                 allValue('[Pb1-calculate]', Pb1Calculate);
 
-                let formulaPB1sText = `\\text{2)} P_{\\text{сек}}^{\\text{B1}} = \\frac{5.1 * ${U}}{3600*${Nb1}*0.2} = ${Psb1}`;
+                let formulaPB1sText = `\\text{3)} P_{\\text{сек}}^{\\text{B1}} = \\frac{5.1 * ${U}}{3600*${Nb1}*0.2} = ${Psb1}`;
                 hiddenFormulaCont = 'hiddenFormulaPB1s';
                 formulaCont='formulaPB1s';
                 canvasCont='canvasPB1s';
@@ -356,6 +467,13 @@ for (let elem = 0; elem < inputs.length; elem++){
                 element = document.getElementById('Qb0maxs-3');
                 if (element) element.textContent = qb0s;
 
+                element = document.getElementById('qSB0');
+                if (element) element.textContent = qb0s;
+
+                let qNas = Number((qb0s * 3.6).toFixed(3));
+                element = document.getElementById('qNas-1');
+                if (element) element.textContent = qNas;
+
                 //значение в скобках рядом с qb0s
                 const b = Number((qb0s * 3.6).toFixed(3));
                 element = document.getElementById('Qb0maxs-b');
@@ -409,8 +527,15 @@ for (let elem = 0; elem < inputs.length; elem++){
                     text = document.getElementById('h-l-text');
                     if (text) text.textContent = Number(result.i.toFixed(3));
 
+                    let hvv = Number((Number(result.i.toFixed(3)) * lInput).toFixed(3));
+                    text = document.getElementById('hvv-text-1');
+                    if (text) text.textContent = hvv;
+
                     text = document.getElementById('v-text');
                     if (text) text.textContent = Number(result.v.toFixed(3));
+
+                    text = document.getElementById('1000i-text');
+                    if (text) text.textContent = Number(result.i1000.toFixed(3));
 
                     //new part 25.11
                     text = document.getElementById('a-1');
@@ -433,6 +558,135 @@ for (let elem = 0; elem < inputs.length; elem++){
                     text = document.getElementById('q-s');
                     if (text) text.textContent = qS;
                 }
+            }
+
+            //new part 15.12
+            if (nT3 && pST3) {
+                nP1 = Number((nT3 * pST3).toFixed(3));
+
+                let formulaText = `\\text{α(N}\\text{P}_с^\\text{T3}\\text{)} = α(${nT3} * ${pST3}) = α(${nP1})`;
+                hiddenFormulaCont = 'hiddenFormulaANP1';
+                formulaCont='formulaANP1';
+                canvasCont='canvasANP1';
+                calculate(formulaText, hiddenFormulaCont,formulaCont,canvasCont);
+
+                // //new part 25.11
+                // let text = document.getElementById('P-s-B0-1');
+                // if (text) text.textContent = Psb0;
+                //
+                // text = document.getElementById('P-s-B0-2');
+                // if (text) text.textContent = Psb0;
+                //
+                // text = document.getElementById('N-B0');
+                // if (text) text.textContent = Nb0;
+                //
+                // text = document.getElementById('NP');
+                // if (text) text.textContent = NP1;
+            }
+
+            if (nP1) {
+                let a = findAlphaByNP(nP1);
+                a = Number(a.toFixed(3));
+                allValue('[aT3-1-calculate]', a);
+
+                const element = document.getElementById('NPT3-1-result');
+                if (element) element.textContent = nP1;
+
+                qST3 = Number((5*a*0.2).toFixed(4));
+
+                let formulaText = `q_{\\text{сек}}^{\\text{T3}} = 5 * ${a} * 0.2 = ${qST3} \\frac{\\text{л}}{\\text{с}}`;
+                hiddenFormulaCont = 'hiddenFormulaQsT3';
+                formulaCont='formulaQsT3';
+                canvasCont='canvasQsT3';
+                calculate(formulaText, hiddenFormulaCont,formulaCont,canvasCont);
+
+                const QT3maxsTableElement = document.getElementById('QT3maxs-table');
+                if (QT3maxsTableElement) QT3maxsTableElement.textContent = qST3;
+                allValue('QT3maxs-table', qST3);
+
+                // let element = document.getElementById('Qb0maxs-2');
+                // if (element) element.textContent = qb0s;
+                //
+                // element = document.getElementById('Qb0maxs-3');
+                // if (element) element.textContent = qb0s;
+                //
+                // //значение в скобках рядом с qb0s
+                // const b = Number((qb0s * 3.6).toFixed(3));
+                // element = document.getElementById('Qb0maxs-b');
+                // if (element) element.textContent = b;
+                //
+                // // hvv
+                // let result = findDQS(Number(qb0s));
+                // let resultText = result.s + " * " + qb0s + "² = " + Number((Number(qb0s)**2 * result.s).toFixed(2));
+                // h2 = Number((Number(qb0s)**2 * result.s).toFixed(2));
+                //
+                // let text = document.getElementById('h2-text');
+                // if (text) text.textContent = h2;
+                //
+                // const Qb0maxsText = document.getElementById('hvv-text');
+                // if (Qb0maxsText) Qb0maxsText.textContent = resultText;
+                //
+                // //блок проверки
+                // if (result.firstD !== result.d) {
+                //     let textParams = "Выполняем проверку водосчетчика: при d = " + result.firstD + " мм. S = " + result.firstS + " м/(л/с)²";
+                //     let text = document.getElementById('hvv-check-params');
+                //     if (text) text.textContent = textParams;
+                //
+                //     const hvvFirst = Number((Number(qb0s)**2 * result.firstS).toFixed(3));
+                //     let textCalculate = "h<sub>вод.</sub> = " + result.firstS + " * " + qb0s + "² = " + hvvFirst + " м. вод. ст, из этого следует, что потери напора выше допустимых, поэтому следует принять счетчик воды на один калибр больше.";
+                //     text = document.getElementById('hvv-check-calculate');
+                //     if (text) text.innerHTML = textCalculate;
+                // }
+                //
+                // let dText = document.getElementById('d-text');
+                // if (dText) dText.textContent = result.d;
+                //
+                // dText = document.getElementById('d-text1');
+                // if (dText) dText.textContent = result.d;
+                //
+                // const Qb0maxsElement = document.getElementById('Qb0maxs-1');
+                // if (Qb0maxsElement) Qb0maxsElement.textContent = qb0s;
+                // allValue('Qb0maxs-1', qb0s);
+                //
+                // const NP1Element = document.getElementById('NP1-result');
+                // if (NP1Element) NP1Element.textContent = NP1;
+                //
+                // //H_l^ввод
+                // if(dInput && lInput) {
+                //     result = findMatchingValues(qb0s, Number(dInput));
+                //     hL = Number((Number(lInput) * Number(result.i)).toFixed(3));
+                //     resultText = lInput + " * " + Number(result.i.toFixed(3)) + " = " + hL;
+                //
+                //     let text = document.getElementById('h-l-calculate');
+                //     if (text) text.textContent = resultText;
+                //
+                //     text = document.getElementById('h-l-text');
+                //     if (text) text.textContent = Number(result.i.toFixed(3));
+                //
+                //     text = document.getElementById('v-text');
+                //     if (text) text.textContent = Number(result.v.toFixed(3));
+                //
+                //     //new part 25.11
+                //     text = document.getElementById('a-1');
+                //     if (text) text.textContent = a;
+                //
+                //     text = document.getElementById('a-2');
+                //     if (text) text.textContent = a;
+                //
+                //     let qTot = 5 * 0.3 * a;
+                //     qTot = Number(qTot.toFixed(2));
+                //
+                //     text = document.getElementById('q-tot-1');
+                //     if (text) text.textContent = qTot;
+                //
+                //     text = document.getElementById('q-tot-2');
+                //     if (text) text.textContent = qTot;
+                //
+                //     let qS = Number(qTot) + 1.6;
+                //     qS = Number(qS.toFixed(2));
+                //     text = document.getElementById('q-s');
+                //     if (text) text.textContent = qS;
+                // }
             }
 
             if (Nb1 && Psb1) {
@@ -471,8 +725,8 @@ for (let elem = 0; elem < inputs.length; elem++){
             if (Psb0) {
                 Phb0 = (3600*0.3*Psb0)/300;
                 Phb0 = Number(Phb0.toFixed(6));
-                let Pb0Calculate = "(3600 * 0.3 * " + Psb0 + ")/300 = " + Phb0;
-                allValue('[Phb0-calculate]', Pb0Calculate);
+                // let Pb0Calculate = "(3600 * 0.3 * " + Psb0 + ")/300 = " + Phb0;
+                // allValue('[Phb0-calculate]', Pb0Calculate);
 
                 let formulaPhb0Text = `\\text{1)} P_{\\text{ч}}^{\\text{BO}} = \\frac{3600 * 0.3 * ${Psb0}}{300} = ${Phb0}`;
                 hiddenFormulaCont = 'hiddenFormulaPhB0';
@@ -523,13 +777,63 @@ for (let elem = 0; elem < inputs.length; elem++){
                 if (NP3Element) NP3Element.textContent = NP3;
             }
 
+            //new part 15.12
+            if (pST3) {
+                pHT3 = (3600*0.2*pST3)/200;
+                pHT3 = Number(pHT3.toFixed(6));
+
+                let formulaPhb0Text = `\\text{2)} P_{\\text{ч}}^{\\text{T3}} = \\frac{3600 * 0.2 * ${pST3}}{200} = ${pHT3}`;
+                hiddenFormulaCont = 'hiddenFormulaPhT3';
+                formulaCont='formulaPhT3';
+                canvasCont='canvasPhT3';
+                calculate(formulaPhb0Text, hiddenFormulaCont,formulaCont,canvasCont);
+            }
+
+            if (pHT3 && nT3) {
+                nP2 = Number((nT3 * pHT3).toFixed(3));
+
+                let formulaText = `\\text{α(N}\\text{P}_ч^\\text{T3}\\text{)} = α(${nT3} * ${pHT3}) = α(${nP2})`;
+                hiddenFormulaCont = 'hiddenFormulaANP2';
+                formulaCont='formulaANP2';
+                canvasCont='canvasANP2';
+                calculate(formulaText, hiddenFormulaCont,formulaCont,canvasCont);
+
+                // const Phb0Element = document.getElementById('Phb0-result');
+                // const Nb0Element = document.getElementById('Nb0-result');
+                //
+                // if (Phb0Element) Phb0Element.textContent = Phb0;
+                // if (Nb0Element) Nb0Element.textContent = Nb0;
+            }
+
+            if (nP2) {
+                const element = document.getElementById('NPT3-2-result');
+                if (element) element.textContent = nP2;
+
+                let a = findAlphaByNP(nP2);
+                a = Number(a.toFixed(3));
+                allValue('[aT3-2-calculate]', a);
+
+                qHT3 = Number((0.005*a*200).toFixed(4));
+
+                let formulaQhB0Text = `q_{\\text{ч}}^{\\text{T3}} = 0.005 * ${a} * 200 = ${qHT3} \\frac{\\text{м³}}{\\text{час}}`;
+                hiddenFormulaCont = 'hiddenFormulaQhT3';
+                formulaCont='formulaQhT3';
+                canvasCont='canvasQhT3';
+                calculate(formulaQhB0Text, hiddenFormulaCont,formulaCont,canvasCont);
+
+                const QT3maxhTableElement = document.getElementById('QT3maxh-table');
+                if (QT3maxhTableElement) QT3maxhTableElement.textContent = qHT3;
+                allValue('QT3maxh-table', qHT3);
+
+            }
+
             if (Psb1) {
                 Phb1 = (3600*0.2*Psb1)/200;
                 Phb1 = Number(Phb1.toFixed(6));
-                let Pb1Calculate = "(3600 * 0.2 * " + Psb1 + ")/200 = " + Phb1;
-                allValue('[Phb1-calculate]', Pb1Calculate);
+                // let Pb1Calculate = "(3600 * 0.2 * " + Psb1 + ")/200 = " + Phb1;
+                // allValue('[Phb1-calculate]', Pb1Calculate);
 
-                let formulaPhb1Text = `\\text{2)} P_{\\text{ч}}^{\\text{B1}} = \\frac{3600 * 0.2 * ${Psb1}}{200} = ${Phb1}`;
+                let formulaPhb1Text = `\\text{3)} P_{\\text{ч}}^{\\text{B1}} = \\frac{3600 * 0.2 * ${Psb1}}{200} = ${Phb1}`;
                 hiddenFormulaCont = 'hiddenFormulaPhB1';
                 formulaCont='formulaPhB1';
                 canvasCont='canvasPhB1';
@@ -619,17 +923,67 @@ for (let elem = 0; elem < inputs.length; elem++){
                 text = document.getElementById('qSK1-table2');
                 if (text) text.textContent = qSK1;
             }
+
+            if (hL && h2 && hIlInput) {
+                hItot = Number(hL) + Number(h2) + Number(hIlInput);
+                let text = document.getElementById('Hitot-1');
+                if (text) text.textContent = hItot;
+
+                text = document.getElementById('hL-1');
+                if (text) text.textContent = hL;
+
+                text = document.getElementById('h2-3');
+                if (text) text.textContent = h2;
+
+                text = document.getElementById('hIlInput-1');
+                if (text) text.textContent = hIlInput;
+            }
+
+            if (hGeom && hGInput && hItot) {
+                hNas = Number(hGeom) - Number(hGInput) + 20 + Number(hItot);
+                hNas = Number(hNas.toFixed(3));
+
+                let text = document.getElementById('Hnas-1');
+                if (text) text.textContent = hNas;
+
+                text = document.getElementById('Hnas-2');
+                if (text) text.textContent = Number(hNas.toFixed(1));
+
+                text = document.getElementById('Hgeom-1');
+                if (text) text.textContent = hGeom;
+
+                text = document.getElementById('Hgar-1');
+                if (text) text.textContent = hGInput;
+
+                text = document.getElementById('Hitot-2');
+                if (text) text.textContent = hItot;
+            }
         }
     });
 }
 
 //new part 25.11
-let formulaText = `q^{\\text{sl}} = \\frac{q^{\\text{tot}}_{\\text{hr}}}{3.6} + k_s q^s_0, л/c.`;
+let formulaText = `q^{\\text{sl}}_0 = \\frac{q^{\\text{max}}_{\\text{час}}}{3.6} + k_{\\text{s}} * q^{\\text{s,2}}_0`;
+hiddenFormulaCont = 'hiddenFormulaQ0SL';
+formulaCont='formulaQ0SL';
+canvasCont='canvasQ0SL';
+calculate(formulaText, hiddenFormulaCont,formulaCont,canvasCont);
+//
+
+//new part 25.11
+formulaText = `q^{\\text{sl}} = \\frac{q^{\\text{tot}}_{\\text{hr}}}{3.6} + k_s q^s_0, л/c.`;
 hiddenFormulaCont = 'hiddenFormulaQsl';
 formulaCont='formulaQsl';
 canvasCont='canvasQsl';
 calculate(formulaText, hiddenFormulaCont,formulaCont,canvasCont);
 //
+
+//new part 15.12
+formulaText = `q_{\\text{сут}}^{\\text{T3}} = 70 \\frac{\\text{л}}{\\text{сут}}`;
+hiddenFormulaCont = 'hiddenFormulaQdT3';
+formulaCont='formulaQdT3';
+canvasCont='canvasQdT3';
+calculate(formulaText, hiddenFormulaCont,formulaCont,canvasCont);
 
 let formulaQdB0Text = `q_{\\text{сут}}^{\\text{B0}} = 180 \\frac{\\text{л}}{\\text{сут}}`;
 hiddenFormulaCont = 'hiddenFormulaQdB0';
