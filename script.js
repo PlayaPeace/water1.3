@@ -395,7 +395,7 @@ for (let elem = 0; elem < inputs.length; elem++){
                 pST3 = (6.5*U)/(3600*nT3*0.3);
                 pST3 = Number(pST3.toFixed(6));
 
-                let formulaText = `\\text{2)} P_{\\text{сек}}^{\\text{BO}} = \\frac{6.5 * ${U}}{3600*${nT3}*0.3} = ${pST3}`;
+                let formulaText = `\\text{2)} P_{\\text{сек}}^{\\text{T3}} = \\frac{6.5 * ${U}}{3600*${nT3}*0.3} = ${pST3}`;
                 hiddenFormulaCont = 'hiddenFormulaPsT3';
                 formulaCont='formulaPsT3';
                 canvasCont='canvasPsT3';
