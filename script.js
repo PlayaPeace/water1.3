@@ -545,7 +545,7 @@ for (let elem = 0; elem < inputs.length; elem++){
                     if (text) text.textContent = textParams;
 
                     const hvvFirst = Number((Number(qb0s)**2 * result.firstS).toFixed(3));
-                    let textCalculate = "h<sub>вод.</sub> = " + result.firstS + " * " + qb0s + "² = " + hvvFirst + " м. вод. ст, из этого следует, что потери напора выше допустимых, поэтому следует принять счетчик воды на один калибр больше.";
+                    let textCalculate = "h<sub>вод.</sub> = " + result.firstS + " * " + qb0s + "² = " + hvvFirst + " м. вод. ст, из этого следует, что потери напора выше допустимых, поэтому следует принять счетчик воды на калибр больше.";
                     text = document.getElementById('hvv-check-calculate');
                     if (text) text.innerHTML = textCalculate;
                 }
