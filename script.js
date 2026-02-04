@@ -20,6 +20,8 @@ let nInput;
 let numDevicesT3;
 let z1Input;
 let z2Input;
+//new part 04.02
+let numRisers;
 
 //calculates
 //new part 15.12
@@ -224,6 +226,21 @@ for (let elem = 0; elem < inputs.length; elem++){
 
                 let element = document.getElementById('z2-1');
                 if (element) element.textContent = z2Input;
+            }
+
+            //new part 04.02
+            if (this.hasAttribute('data-risers-input')) {
+                numRisers = this.value;
+                allValue('[data-risers-input]', numRisers);
+
+                let element = document.getElementById('num-risers-1');
+                if (element) element.textContent = numRisers;
+
+                element = document.getElementById('num-risers-2');
+                if (element) element.textContent = numRisers;
+
+                element = document.getElementById('num-risers-3');
+                if (element) element.textContent = numRisers;
             }
 
             //new part 04.02
