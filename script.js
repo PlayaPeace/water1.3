@@ -180,6 +180,10 @@ for (let elem = 0; elem < inputs.length; elem++){
 
                 let text = document.getElementById('n-input-table2');
                 if (text) text.textContent = nInput;
+
+                //new part 04.02
+                text = document.getElementById('N-input-1');
+                if (text) text.textContent = nInput;
             }
 
             //new part 25.11
@@ -220,6 +224,33 @@ for (let elem = 0; elem < inputs.length; elem++){
 
                 let element = document.getElementById('z2-1');
                 if (element) element.textContent = z2Input;
+            }
+
+            //new part 04.02
+            if (nInput && Psb0) {
+                let nInputP = Number((nInput * Psb0).toFixed(2));
+                let element = document.getElementById('NInputP-1');
+                if (element) element.textContent = nInputP;
+
+                let a = findAlphaByNP(nInputP);
+                element = document.getElementById('aInput-1');
+                if (element) element.textContent = a;
+                element = document.getElementById('aInput-2');
+                if (element) element.textContent = a;
+
+                let qTot = 5 * 0.3 * a;
+                qTot = Number(qTot.toFixed(2));
+
+                element = document.getElementById('q-tot-1');
+                if (element) element.textContent = qTot;
+
+                element = document.getElementById('q-tot-2');
+                if (element) element.textContent = qTot;
+
+                let qS = Number(qTot) + 1.6;
+                qS = Number(qS.toFixed(2));
+                element = document.getElementById('q-s');
+                if (element) element.textContent = qS;
             }
 
             //new part 25.11
@@ -437,7 +468,7 @@ for (let elem = 0; elem < inputs.length; elem++){
                 if (text) text.textContent = Psb0;
 
                 text = document.getElementById('N-B0');
-                if (text) text.textContent = Nb0;
+                if (text) text.textContent = nInput;
 
                 text = document.getElementById('NP');
                 if (text) text.textContent = NP1;
@@ -537,26 +568,13 @@ for (let elem = 0; elem < inputs.length; elem++){
                     text = document.getElementById('1000i-text');
                     if (text) text.textContent = Number(result.i1000.toFixed(3));
 
-                    //new part 25.11
-                    text = document.getElementById('a-1');
-                    if (text) text.textContent = a;
+                    // //new part 25.11
+                    // text = document.getElementById('a-1');
+                    // if (text) text.textContent = a;
+                    //
+                    // text = document.getElementById('a-2');
+                    // if (text) text.textContent = a;
 
-                    text = document.getElementById('a-2');
-                    if (text) text.textContent = a;
-
-                    let qTot = 5 * 0.3 * a;
-                    qTot = Number(qTot.toFixed(2));
-
-                    text = document.getElementById('q-tot-1');
-                    if (text) text.textContent = qTot;
-
-                    text = document.getElementById('q-tot-2');
-                    if (text) text.textContent = qTot;
-
-                    let qS = Number(qTot) + 1.6;
-                    qS = Number(qS.toFixed(2));
-                    text = document.getElementById('q-s');
-                    if (text) text.textContent = qS;
                 }
             }
 
@@ -975,6 +993,12 @@ formulaText = `q^{\\text{sl}} = \\frac{q^{\\text{tot}}_{\\text{hr}}}{3.6} + k_s 
 hiddenFormulaCont = 'hiddenFormulaQsl';
 formulaCont='formulaQsl';
 canvasCont='canvasQsl';
+calculate(formulaText, hiddenFormulaCont,formulaCont,canvasCont);
+
+formulaText = `V \\sqrt{\\frac{h}{d}} \\geq k, (4.2)`;
+hiddenFormulaCont = 'hiddenFormulaV';
+formulaCont='formulaV';
+canvasCont='canvasV';
 calculate(formulaText, hiddenFormulaCont,formulaCont,canvasCont);
 //
 
