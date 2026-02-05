@@ -291,7 +291,7 @@ for (let elem = 0; elem < inputs.length; elem++){
             if (numFloors && floorHeight) {
                 Hnijt = 2+floorHeight*(numFloors-1);
                 Hnijt = Number(Hnijt.toFixed(1));
-                formulaHnijtResult = `H_{\\text{ниж.т.}} = 2+${floorHeight}*(${numFloors}-1) = ${Hnijt} {\\text{м.вод.столба}}`;
+                formulaHnijtResult = `H_{\\text{ниж.т.}} = 3+${floorHeight}*(${numFloors}-1) = ${Hnijt} {\\text{м.вод.столба}}`;
                 hiddenFormulaCont = 'hiddenFormulaHnijt';
                 formulaCont='formulaHnijt';
                 canvasCont='canvasHnijt';
